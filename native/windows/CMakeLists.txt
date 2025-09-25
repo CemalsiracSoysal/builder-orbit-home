@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(pistream_gdi LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+add_executable(pistream_gdi src/win_gdi_stream.cpp)
+target_link_libraries(pistream_gdi gdi32 ws2_32)
