@@ -6,6 +6,9 @@ on:
       - ".github/workflows/android-ndk.yml"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,6 +36,18 @@ jobs:
           gradle-version: 8.7
           build-root-directory: android
           arguments: assembleDebug
+
+      - name: Prepare artifact in repo
+        run: |
+          mkdir -p bin/android
+          short=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          cp android/app/build/outputs/apk/debug/app-debug.apk "bin/android/pistream-debug-$short.apk"
+
+      - name: Commit APK into repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: add Android debug APK (${{ github.sha }}) [skip ci]"
+          file_pattern: bin/android/*.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
