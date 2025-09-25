@@ -2,8 +2,8 @@ name: windows-exe
 on:
   push:
     paths:
-      - 'native/windows/**'
-      - '.github/workflows/windows-exe.yml'
+      - "native/windows/**"
+      - ".github/workflows/windows-exe.yml"
   workflow_dispatch:
 
 jobs:
