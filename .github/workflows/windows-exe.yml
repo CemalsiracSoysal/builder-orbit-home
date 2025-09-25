@@ -6,6 +6,9 @@ on:
       - ".github/workflows/windows-exe.yml"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -16,6 +19,29 @@ jobs:
         run: cmake -S native/windows -B build -A x64
       - name: Build (Release)
         run: cmake --build build --config Release --verbose
+
+      - name: Prepare artifact in repo
+        shell: pwsh
+        env:
+          SHORT_SHA: ${{ github.sha }}
+        run: |
+          New-Item -ItemType Directory -Force -Path bin\windows | Out-Null
+          $short = $env:SHORT_SHA.Substring(0,7)
+          $dest = "bin/windows/pistream_gdi-$short.exe"
+          if (Get-ChildItem build/Release/*.exe -ErrorAction SilentlyContinue) {
+            Copy-Item build/Release/*.exe $dest -Force
+          } elseif (Get-ChildItem build/*.exe -ErrorAction SilentlyContinue) {
+            Copy-Item build/*.exe $dest -Force
+          } else {
+            Write-Error "No EXE found"
+          }
+
+      - name: Commit EXE into repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: add Windows EXE (${{ github.sha }}) [skip ci]"
+          file_pattern: bin/windows/*.exe
+
       - name: Upload EXE artifact
         uses: actions/upload-artifact@v4
         with:
@@ -23,6 +49,7 @@ jobs:
           path: |
             build/Release/*.exe
             build/*.exe
+
       - name: Publish to GitHub Releases (beta)
         uses: ncipollo/release-action@v1
         with:
