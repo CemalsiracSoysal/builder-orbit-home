@@ -23,3 +23,17 @@ jobs:
           path: |
             build/Release/*.exe
             build/*.exe
+      - name: Publish to GitHub Releases (beta)
+        uses: ncipollo/release-action@v1
+        with:
+          tag: beta
+          name: PiStream Beta
+          body: |
+            Automated beta release containing Windows EXE build.
+            This release is updated by CI on each run.
+          prerelease: true
+          allowUpdates: true
+          makeLatest: false
+          artifacts: |
+            build/Release/*.exe
+            build/*.exe
