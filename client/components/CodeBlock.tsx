@@ -9,12 +9,23 @@ interface CodeBlockProps {
   className?: string;
 }
 
-export default function CodeBlock({ code, language = "", className }: CodeBlockProps) {
+export default function CodeBlock({
+  code,
+  language = "",
+  className,
+}: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
   return (
     <div className={cn("relative group", className)}>
       <pre className="overflow-auto rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
-        <code className={cn("block whitespace-pre", language && `language-${language}`)}>{code}</code>
+        <code
+          className={cn(
+            "block whitespace-pre",
+            language && `language-${language}`,
+          )}
+        >
+          {code}
+        </code>
       </pre>
       <Button
         size="sm"
@@ -26,7 +37,12 @@ export default function CodeBlock({ code, language = "", className }: CodeBlockP
           setTimeout(() => setCopied(false), 1200);
         }}
       >
-        {copied ? <Check className="mr-2 size-4" /> : <Copy className="mr-2 size-4" />} {copied ? "Kopyalandı" : "Kopyala"}
+        {copied ? (
+          <Check className="mr-2 size-4" />
+        ) : (
+          <Copy className="mr-2 size-4" />
+        )}{" "}
+        {copied ? "Kopyalandı" : "Kopyala"}
       </Button>
     </div>
   );

@@ -1,12 +1,27 @@
 import { useMemo } from "react";
-import { ArrowRight, Smartphone, Monitor, Laptop, Gauge, Lock, Network } from "lucide-react";
+import {
+  ArrowRight,
+  Smartphone,
+  Monitor,
+  Laptop,
+  Gauge,
+  Lock,
+  Network,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CodeBlock from "@/components/CodeBlock";
 
 export default function Index() {
-  const linuxSample = useMemo(() => `// linux_rpi_fb_stream.c
+  const linuxSample = useMemo(
+    () => `// linux_rpi_fb_stream.c
 // Derleme: gcc linux_rpi_fb_stream.c -o fbstream
 // Basit framebuffer okuma ve TCP ile gönderme (sıkıştırmasız)
 #include <arpa/inet.h>
@@ -65,9 +80,12 @@ done:
   munmap(fbp, screensize); close(fb); close(sockfd);
   return 0;
 }
-`, []);
+`,
+    [],
+  );
 
-  const windowsSample = useMemo(() => `// win_gdi_stream.cpp
+  const windowsSample = useMemo(
+    () => `// win_gdi_stream.cpp
 // Derleme (MinGW ör.): g++ win_gdi_stream.cpp -lgdi32 -lws2_32 -o gdistream.exe
 #include <winsock2.h>
 #include <windows.h>
@@ -113,9 +131,12 @@ int main(int argc, char **argv){
   closesocket(sock); WSACleanup();
   return 0;
 }
-`, []);
+`,
+    [],
+  );
 
-  const androidSample = useMemo(() => `// Android tarafı: MediaProjection (Java/Kotlin) ile ekran alımı gerekir.
+  const androidSample = useMemo(
+    () => `// Android tarafı: MediaProjection (Java/Kotlin) ile ekran alımı gerekir.
 // Native C++ soket gönderimi örneği (NDK):
 // CMake ile bir kütüphane oluşturup aşağıdaki fonksiyonu JNI ile çağırabilirsiniz.
 #include <jni.h>
@@ -146,7 +167,9 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
 // Java tarafı iskelet (MediaProjection ile RGBA elde edip JNI'ye geçirirsiniz):
 // class NativeSender { static native int sendFrame(byte[] rgba, int w, int h, int port, String host); }
 // ImageReader ile elde edilen her karede NativeSender.sendFrame(rgba, w, h, port, host) çağrılır.
-`, []);
+`,
+    [],
+  );
 
   return (
     <div>
@@ -154,17 +177,30 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,.25),transparent_50%),radial-gradient(ellipse_at_bottom,rgba(59,130,246,.25),transparent_50%)]" />
         <div className="container mx-auto py-20 md:py-28 text-center">
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary ring-1 ring-primary/20">C/C++ • Framebuffer • VNC tarzı aktarım</span>
+          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary ring-1 ring-primary/20">
+            C/C++ • Framebuffer • VNC tarzı aktarım
+          </span>
           <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight">
             Pigpu/Framebuffer ile ekranı anlık ileten
             <span className="block text-primary">C/C++ VNC-benzeri çözüm</span>
           </h1>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            Android APK ve Windows EXE/MSI hedefleri için düşük gecikmeli ekran paylaşımı. Raspberry Pi/Linux üzerinde framebuffer’dan okur, Windows’ta GDI ile yakalar, Android’de MediaProjection + NDK ile aktarır.
+            Android APK ve Windows EXE/MSI hedefleri için düşük gecikmeli ekran
+            paylaşımı. Raspberry Pi/Linux üzerinde framebuffer’dan okur,
+            Windows’ta GDI ile yakalar, Android’de MediaProjection + NDK ile
+            aktarır.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            <a href="#code"><Button size="lg">Kod Örneklerine Git <ArrowRight className="ml-2" /></Button></a>
-            <a href="#features"><Button size="lg" variant="secondary">Özellikler</Button></a>
+            <a href="#code">
+              <Button size="lg">
+                Kod Örneklerine Git <ArrowRight className="ml-2" />
+              </Button>
+            </a>
+            <a href="#features">
+              <Button size="lg" variant="secondary">
+                Özellikler
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -174,26 +210,40 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
         <div className="grid md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Gauge className="text-primary" /> Düşük Gecikme</CardTitle>
-              <CardDescription>Ham framebuffer veya isteğe bağlı sıkıştırma ile 30–60 FPS akış.</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Gauge className="text-primary" /> Düşük Gecikme
+              </CardTitle>
+              <CardDescription>
+                Ham framebuffer veya isteğe bağlı sıkıştırma ile 30–60 FPS akış.
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              Ham veri basit TCP üstünden iletilir. İhtiyaca göre libjpeg-turbo/AV1 gibi kodeklerle geliştirilebilir.
+              Ham veri basit TCP üstünden iletilir. İhtiyaca göre
+              libjpeg-turbo/AV1 gibi kodeklerle geliştirilebilir.
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Lock className="text-primary" /> Güvenli Mimarî</CardTitle>
-              <CardDescription>TLS, kimlik doğrulama ve erişim kısıtları eklenebilir.</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="text-primary" /> Güvenli Mimarî
+              </CardTitle>
+              <CardDescription>
+                TLS, kimlik doğrulama ve erişim kısıtları eklenebilir.
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              İlk sürüm basit TCP kullanır; üretimde TLS terminasyonu ve kullanıcı yönetimi önerilir.
+              İlk sürüm basit TCP kullanır; üretimde TLS terminasyonu ve
+              kullanıcı yönetimi önerilir.
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Network className="text-primary" /> Çoklu Platform</CardTitle>
-              <CardDescription>APK ve EXE/MSI kurulum paketleri hedeflenir.</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Network className="text-primary" /> Çoklu Platform
+              </CardTitle>
+              <CardDescription>
+                APK ve EXE/MSI kurulum paketleri hedeflenir.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               • Linux/RPi: /dev/fb0 okuma
@@ -209,16 +259,23 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
         <div className="grid md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Smartphone className="text-primary" /> Android (APK)</CardTitle>
-              <CardDescription>NDK + MediaProjection ile ekran aktarımı</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Smartphone className="text-primary" /> Android (APK)
+              </CardTitle>
+              <CardDescription>
+                NDK + MediaProjection ile ekran aktarımı
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              Gradle ile NDK yapılandırın, JNI üzerinden kareleri native katmana gönderin.
+              Gradle ile NDK yapılandırın, JNI üzerinden kareleri native katmana
+              gönderin.
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Laptop className="text-primary" /> Windows (EXE/MSI)</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Laptop className="text-primary" /> Windows (EXE/MSI)
+              </CardTitle>
               <CardDescription>GDI/DXGI ile ekran yakalama</CardDescription>
             </CardHeader>
             <CardContent>
@@ -227,7 +284,9 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Monitor className="text-primary" /> RPi/Linux</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Monitor className="text-primary" /> RPi/Linux
+              </CardTitle>
               <CardDescription>Framebuffer tabanlı aktarım</CardDescription>
             </CardHeader>
             <CardContent>
@@ -240,7 +299,10 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
       {/* CODE SAMPLES */}
       <section id="code" className="container mx-auto py-12 md:py-20">
         <h2 className="text-2xl md:text-3xl font-bold">Kod Örnekleri</h2>
-        <p className="text-muted-foreground mt-2">Bu örnekler, ağ protokolü ve sıkıştırma katmanını sade tutarak mimariyi göstermeyi amaçlar.</p>
+        <p className="text-muted-foreground mt-2">
+          Bu örnekler, ağ protokolü ve sıkıştırma katmanını sade tutarak
+          mimariyi göstermeyi amaçlar.
+        </p>
         <div className="mt-6">
           <Tabs defaultValue="linux">
             <TabsList>
@@ -260,8 +322,13 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
           </Tabs>
         </div>
         <div id="download" className="mt-8 flex flex-wrap gap-3">
-          <Button variant="default"><Smartphone className="mr-2" /> APK hedefi: Android Studio + NDK</Button>
-          <Button variant="secondary"><Laptop className="mr-2" /> EXE/MSI: Visual Studio / CMake + WiX/MSIX</Button>
+          <Button variant="default">
+            <Smartphone className="mr-2" /> APK hedefi: Android Studio + NDK
+          </Button>
+          <Button variant="secondary">
+            <Laptop className="mr-2" /> EXE/MSI: Visual Studio / CMake +
+            WiX/MSIX
+          </Button>
         </div>
       </section>
 
@@ -270,14 +337,29 @@ Java_com_pistream_NativeSender_sendFrame(JNIEnv* env, jobject thiz, jbyteArray f
         <Card>
           <CardHeader>
             <CardTitle>Önemli Not</CardTitle>
-            <CardDescription>Bu web arayüzü, projenin dokümantasyonunu ve planını sunar.</CardDescription>
+            <CardDescription>
+              Bu web arayüzü, projenin dokümantasyonunu ve planını sunar.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            Native C/C++ APK ve EXE/MSI derlemeleri mevcut web proje ortamında doğrudan üretilemez. Kendi yerel depo/CI ortamınızda derlemeniz gerekir. Harici bir depo ile devam etmek için:
+            Native C/C++ APK ve EXE/MSI derlemeleri mevcut web proje ortamında
+            doğrudan üretilemez. Kendi yerel depo/CI ortamınızda derlemeniz
+            gerekir. Harici bir depo ile devam etmek için:
             <ul className="list-disc pl-6 mt-3 space-y-1">
-              <li>GitHub/yerel depo bağlayın veya VS Code eklentisi/CLI kullanın: https://www.builder.io/c/docs/projects-github, https://www.builder.io/c/docs/projects-local-repo, https://www.builder.io/c/docs/projects-vscode</li>
-              <li>Android için: MediaProjection izinleri (MANAGE_OVERLAY, FOREGROUND_SERVICE) ve ekran yakalama akışını kurun.</li>
-              <li>Windows için: DXGI Desktop Duplication daha performanslıdır; GDI basit bir başlangıçtır.</li>
+              <li>
+                GitHub/yerel depo bağlayın veya VS Code eklentisi/CLI kullanın:
+                https://www.builder.io/c/docs/projects-github,
+                https://www.builder.io/c/docs/projects-local-repo,
+                https://www.builder.io/c/docs/projects-vscode
+              </li>
+              <li>
+                Android için: MediaProjection izinleri (MANAGE_OVERLAY,
+                FOREGROUND_SERVICE) ve ekran yakalama akışını kurun.
+              </li>
+              <li>
+                Windows için: DXGI Desktop Duplication daha performanslıdır; GDI
+                basit bir başlangıçtır.
+              </li>
             </ul>
           </CardContent>
         </Card>
