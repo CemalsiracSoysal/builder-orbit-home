@@ -39,3 +39,16 @@ jobs:
         with:
           name: pistream-apk-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Publish to GitHub Releases (beta)
+        uses: ncipollo/release-action@v1
+        with:
+          tag: beta
+          name: PiStream Beta
+          body: |
+            Automated beta release containing Android debug APK (NDK).
+            This release is updated by CI on each run.
+          prerelease: true
+          allowUpdates: true
+          makeLatest: false
+          artifacts: android/app/build/outputs/apk/debug/app-debug.apk
